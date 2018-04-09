@@ -1,0 +1,12 @@
+platform :ios, '9.2'
+
+
+target 'Chicago Buses' do
+use_frameworks!
+pod 'Disk', '~> 0.3.3'
+pod 'SwiftyOnboard'
+pod 'ReachabilitySwift'
+pod 'UIColor_Hex_Swift', '~> 4.0.1'
+pod 'NotificationBannerSwift'
+pod 'SwiftyUserDefaults'
+end

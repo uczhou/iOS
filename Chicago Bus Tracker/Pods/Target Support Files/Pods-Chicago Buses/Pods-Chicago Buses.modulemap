@@ -1,0 +1,6 @@
+framework module Pods_Chicago_Buses {
+  umbrella header "Pods-Chicago Buses-umbrella.h"
+
+  export *
+  module * { export * }
+}
