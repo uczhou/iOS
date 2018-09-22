@@ -1,26 +1,31 @@
 ## 微博图片/相册爬虫：Scrapy框架简易版AJAX动态加载爬虫实例
 
-最近在爬取网络上的图片资源，今天用scrapy框架搭建了一个简单的爬虫，尝试着爬取微博上某个大V的美女图片。首先是搜索网络上现有的爬取微博图片的code，结合网上最近几篇有关如何爬取微博图片的文章，以及其中的一些被踩过的坑，自己码了几行代码，爬取了图片。
+最近在爬取网络上的图片资源，今天用scrapy框架搭建了一个简单的爬虫，尝试着爬取微博上某个大V的美女图片。
+首先是搜索网络上现有的爬取微博图片的code，结合网上最近几篇有关如何爬取微博图片的文章，以及其中的一些被踩过的坑，自己码了几行代码，爬取了图片。
 
-<img src="http://img.meinvce.com/tech/p1.png">
+<img src="http://img.meinvce.com/tech/p1.png" height="500px" hspace="50px">
 
 ### 1. 首先还是对微博相册进行分析
-本次微博相册爬虫爬取的对象是某大V，按照其他文章所写，现在爬取微博图片（或者说社交网络数据）首先考虑移动端。所以这次就直接用Chrome的Device mode加载微博页，然后用Chrome自带的Developer Tools抓取网页加载。
-<img src="http://img.meinvce.com/tech/p3.png">
+本次微博相册爬虫爬取的对象是某大V，按照其他文章所写，现在爬取微博图片（或者说社交网络数据）首先考虑移动端。
+所以这次就直接用Chrome的Device mode加载微博页，然后用Chrome自带的Developer Tools抓取网页加载。
+
+<img src="http://img.meinvce.com/tech/p3.png" width ="500px" hspace="50px">
 
 其中有一个向m.weibo.cn/api/container发送的请求。
 
-<img src="http://img.meinvce.com/tech/p4.png">
+<img src="http://img.meinvce.com/tech/p4.png" width="500px" hspace="50px">
 
 ### 2. 获取微博信息和图片资源
 点击该请求返回的资源，有以下信息：
 
-<img src="http://img.meinvce.com/tech/p5.png">
+<img src="http://img.meinvce.com/tech/p5.png" width="500px" hspace="50px">
 
-<img src="http://img.meinvce.com/tech/p7.png">
+<img src="http://img.meinvce.com/tech/p7.png" width="500px" hspace="50px">
 
 将Request URL复制到浏览器中打开，发现返回的是一个JSON文件，文件内容包含该页的微博条数，以及每条微博的详细信息，结构如下：
-<img src="http://img.meinvce.com/tech/p9.png">
+
+<img src="http://img.meinvce.com/tech/p9.png" width="500px" hspace="50px">
+
 data包含cards，cardlistInfo等信息，微博图片有关的信息都在cards中。获取cards中图片的方式如下：
 
 ```
@@ -41,20 +46,22 @@ for i in range(len(cards)):
 分析完微博信息和图片资源，最后就是利用scrapy框架来爬取图片了。scrapy框架的安装和使用就不在这里叙述了，直接上代码。
 
 最后爬取的过程截图如下：
-<img src="http://img.meinvce.com/tech/p10.png">
+
+<img src="http://img.meinvce.com/tech/p10.png" height="500px" hspace="50px">
 
 爬取的文件：
 
-<img src="http://img.meinvce.com/tech/p11.png">
+<img src="http://img.meinvce.com/tech/p11.png" height="500px" hspace="50px">
 
-<img src="http://img.meinvce.com/tech/p12.png">
+<img src="http://img.meinvce.com/tech/p12.png" height="500px" hspace="50px">
 
 ### 4. 总结
-这次爬虫的主要时间是花在了阅读其他博文，以及自己分析微博页面的过程中，写代码用了不到半个小时，调试了十几分钟。以防微博账号被封，这次爬取速度是每10秒一次请求，暂时没有遇到账号被封的情况。
+这次爬虫的主要时间是花在了阅读其他博文，以及自己分析微博页面的过程中，写代码用了不到半个小时，调试了十几分钟。
+以防微博账号被封，这次爬取速度是每10秒一次请求，暂时没有遇到账号被封的情况。
 
 ### 5. 代码
 
-#### a. image_spider.py
+### a. image_spider.py
 
 ```
 class WeiboSpider(Spider):
@@ -173,7 +180,7 @@ class WeiboSpider(Spider):
 
 ```
 
-#### b. pipelines.py
+### b. pipelines.py
 ```
 import json
 from scrapy.pipelines.images import ImagesPipeline
@@ -293,7 +300,7 @@ class ImagePathPipeline(object):
 
 ```
 
-#### c. items.py
+### c. items.py
 ```
 import scrapy
 from scrapy import Field
